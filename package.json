@@ -25,9 +25,7 @@
   },
   "homepage": "https://github.com/yusukeshibata/react-pullrefresh#readme",
   "peerDependencies": {
-    "react": "^16.12.0",
-    "react-native": "^0.42.3",
-    "react-native-svg": "^5.1.6"
+    "react": "^16.12.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
