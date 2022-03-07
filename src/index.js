@@ -12,7 +12,7 @@ export default class PullRefresh extends Component {
     this.state = {
       y: 0,
       yRefreshing: 0,
-      max: MAX,
+      max: (typeof(_this.props.maxVal) == 'undefined' ? MAX : _this.props.maxVal),
       phase: ''
     }
   }

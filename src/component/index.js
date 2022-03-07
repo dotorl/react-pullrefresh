@@ -30,7 +30,6 @@ const Component = styled.div`
   border-radius: 20px;
   width: 40px;
   height: 40px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 `
 
 const RotatingSvg = styled.svg`
@@ -46,7 +45,7 @@ const DashedCircle = styled.circle`
 
 export default (props, state) => {
   const { max, yRefreshing, y, phase } = state
-  const { zIndex, color, bgColor } = props
+  const { zIndex, color, bgColor, bgImage, topVal } = props
   const p = Math.atan(y / max)
   const pMax = Math.atan(yRefreshing / max)
   const r = Math.PI * 10 * 2
@@ -58,42 +57,23 @@ export default (props, state) => {
       key='pull'
       zIndex={zIndex}
       style={{
-        top: Math.max(refreshed ? Math.atan(1) : p, 0) * max - 10,
+        top: Math.max(refreshed ? Math.atan(1) : p, 0) * max - 10 + (typeof(topVal) == 'undefined' ? 0 : topVal),
         transform: `translate(-50%, -100%) scale(${refreshed ? p : 1},${refreshed ? p : 1})`,
-        backgroundColor: bgColor
+        //display: (phase === 'willRefresh' || phase === 'refreshing' || phase === 'refreshed'? 'block' : 'none')
+        display: (phase === '' ? 'none' : 'block' )
+        //backgroundColor: bgColor
       }}
     >
-      <Svg
+      <div
         style={{
-          transform:`rotate(${yRefreshing}deg)`
+          position:'absolute',
+          width:'4.5667rem',
+          height:'4.5667rem',
+          backgroundImage:'url('+bgImage+')',
+          backgroundSize:'100%'
         }}
-        width={40}
-        height={40}
-        viewBox='0 0 40 40'
       >
-        <Circle
-          style={{ opacity:pMax }}
-          stroke={color}
-          strokeWidth={2.5}
-          strokeDasharray={[r * pMax * 0.6, r * (1 - pMax * 0.6)]}
-          strokeDashoffset={-r * (1 - pMax * 0.6)}
-          fill='none'
-          cx={20}
-          cy={20}
-          r={8.5}
-        />
-        { phase !== 'refreshing' &&
-            <path
-              style={{
-                opacity: pMax,
-                transformOrigin: '50% 0%',
-                transform: `scale(${Math.min(pMax, 1)}, ${Math.min(pMax, 1)})`
-              }}
-              fill={color}
-              d='M23.5,19l5,5l5-5H23.5z'
-            />
-        }
-      </Svg>
+      </div>
     </Component>
   )
 }
